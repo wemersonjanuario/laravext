@@ -1,0 +1,24 @@
+{
+  "name": "wemersonjanuario/laravext",
+  "description": "Demo package for Websanova article.",
+  "keywords": ["laravel", "demo"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Wemerson Januario",
+      "email": "wemerson.januario@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Inline\\Laravext\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/support": "~5",
+    "illuminate/view": "5.x"
+  },
+  "minimum-stability": "dev"
+
+}
