@@ -1,7 +1,7 @@
 {
   "name": "wemersonjanuario/laravext",
-  "description": "Demo package for Websanova article.",
-  "keywords": ["laravel", "demo"],
+  "description": "Laravel package to interface with Sencha Ext JS framework ",
+  "keywords": ["laravel", "extjs", "sencha", "javascript"],
   "license": "MIT",
   "authors": [
     {
