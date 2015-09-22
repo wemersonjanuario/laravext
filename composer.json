@@ -11,7 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Inline\\Laravext\\": "src/"
+      "Inline\\Laravext\\": "src/Inline/Laravext/"
     }
   },
   "require": {

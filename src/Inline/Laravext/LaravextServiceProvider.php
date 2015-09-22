@@ -18,15 +18,15 @@ class LaravextServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([__DIR__ . '/../resources/config/laravext.php' => config_path('laravext.php')], 'config');
-        $this->publishes([__DIR__ . '/../resources/views' => base_path('resources/views/vendor/laravext')], 'views');
+        $this->publishes([__DIR__ . '/../../resources/config/laravext.php' => config_path('laravext.php')], 'config');
+        $this->publishes([__DIR__ . '/../../resources/views' => base_path('resources/views/vendor/laravext')], 'views');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/laravext.php', 'laravext');
+        $this->mergeConfigFrom(__DIR__ . '/../../resources/config/laravext.php', 'laravext');
                 $this->app->bind('laravext', function () {
-                    return new LaravextController();
+                    return new Laravext();
                 });
 
 
