@@ -3,8 +3,9 @@
 <head>
     <meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
     <title></title>
-
-    {{--<link rel="stylesheet" type="text/css" href="{{URL::to('/resources/css/bootstrapDomPdf.css')}}"/>--}}
+    @if($stylesheetUrl)
+        <link rel="stylesheet" type="text/css" href="{{$stylesheetUrl}}"/>
+    @endif
     <style TYPE="text/css">
         body {
             margin: 0px auto;
@@ -23,7 +24,7 @@
     <thead>
     <tr>
         @foreach ($columns as $column)
-            <th style="text-align: {{ $column['align'] }}">{{ $column['text'] }}</th>
+            <th style="text-align: {{ $column['align'] }}; width:{{ $column['width']}}px;">{{ $column['text'] }}</th>
         @endforeach
     </tr>
     </thead>
@@ -31,27 +32,19 @@
     @foreach ($rows->toArray() as $row)
         <tr>
             @for ($i = 0; $i < count($columns) ; $i++)
-                @if ($columnsDataType[$columns[$i]['dataIndex']] === 'money')
-                    <td style="text-align:right;">
+                <td style="text-align:{{$columns[$i]['align']}};">
+                    @if ($columnsDataType[$columns[$i]['dataIndex']] === 'money')
                         R$ {{ number_format($row[$columns[$i]['dataIndex']], 2, ',', '.') }}
-                    </td>
-                @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'date')
-                    <td style="text-align:center;">
+                    @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'date')
                         {{ Carbon::parse($row[$columns[$i]['dataIndex']])->format('d/m/Y') }}
-                    </td>
-                @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'datetime')
-                    <td style="text-align:center;">
+                    @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'datetime')
                         {{ Carbon::parse($row[$columns[$i]['dataIndex']])->format('d/m/Y H:i') }}
-                    </td>
-                @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'boolean')
-                    <td style="text-align:center;">
-                        {{ $row[$columns[$i]['dataIndex']] == 1 ? 'Sim' : 'N&atilde;o'}}
-                    </td>
-                @else
-                    <td style="text-align:left;">
+                    @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'boolean')
+                        {{ $row[$columns[$i]['dataIndex']] == 1 ? trans("laravext.true") : trans("laravext.false")}}
+                    @else
                         {{$row[$columns[$i]['dataIndex']]}}
-                    </td>
-                @endif
+                    @endif
+                </td>
             @endfor
 
         </tr>
