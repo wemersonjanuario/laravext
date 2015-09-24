@@ -40,7 +40,7 @@
                     @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'datetime')
                         {{ Carbon::parse($row[$columns[$i]['dataIndex']])->format('d/m/Y H:i') }}
                     @elseif ($columnsDataType[$columns[$i]['dataIndex']] === 'boolean')
-                        {{ $row[$columns[$i]['dataIndex']] == 1 ? trans("laravext.true") : trans("laravext.false")}}
+                        {{ $row[$columns[$i]['dataIndex']] == 1 ? trans("laravext::laravext.true") : trans("laravext::laravext.false")}}
                     @else
                         {{$row[$columns[$i]['dataIndex']]}}
                     @endif
