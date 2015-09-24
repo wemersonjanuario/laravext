@@ -1,7 +1,16 @@
 {
   "name": "wemersonjanuario/laravext",
   "description": "Laravel package to interface with Sencha Ext JS framework ",
-  "keywords": ["laravel", "extjs", "sencha", "javascript"],
+  "keywords": [
+    "laravel",
+    "extjs",
+    "sencha",
+    "javascript",
+    "export extjs grid",
+    "excel",
+    "pdf",
+    "xls"
+  ],
   "license": "MIT",
   "authors": [
     {
@@ -9,6 +18,9 @@
       "email": "wemerson.januario@gmail.com"
     }
   ],
+  "support": {
+    "issues": "https://github.com/wemersonjanuario/laravext/issues?state=open"
+  },
   "autoload": {
     "psr-4": {
       "Inline\\Laravext\\": "src/Inline/Laravext/"
@@ -16,9 +28,13 @@
   },
   "require": {
     "php": ">=5.4.0",
+    "wemersonjanuario/laravelpdf": "1.0.*",
+    "phpoffice/phpexcel": "1.8.*",
+    "wemersonjanuario/wkhtmltox-windows-64bit": "dev-master",
+    "h4cc/wkhtmltopdf-i386": "*",
+    "h4cc/wkhtmltopdf-amd64": "0.12.2.1",
     "illuminate/support": "~5",
     "illuminate/view": "5.x"
   },
   "minimum-stability": "dev"
-
 }
