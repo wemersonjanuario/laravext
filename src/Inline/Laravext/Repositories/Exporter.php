@@ -30,7 +30,7 @@ class Exporter
         $this->query = $request->get('query');
         $this->columns = json_decode($request->get('columns'), true);
         $this->documentType = $request->get('document_type');
-        $this->documentTitle = !empty($request->get('document_title')) ? $request->get('document_title') : trans('laravext.default_document_name');
+        $this->documentTitle = !empty($request->get('document_title')) ? $request->get('document_title') : trans('laravext.laravext.default_document_name');
         $this->documentFontSize = !empty($request->get('document_font_size')) ? $request->get('document_font_size') : config('laravext.default_document_font_size');
         $this->documentOrientation = !empty($request->get('document_orientation')) ? $request->get('document_orientation') : config('laravext.default_document_orientation');
         if (is_array($this->columns)) {

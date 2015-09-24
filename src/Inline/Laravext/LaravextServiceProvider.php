@@ -20,6 +20,11 @@ class LaravextServiceProvider extends ServiceProvider
     {
         $this->publishes([__DIR__ . '/../../resources/config/laravext.php' => config_path('laravext.php')], 'config');
         $this->publishes([__DIR__ . '/../../resources/views' => base_path('resources/views/vendor/laravext')], 'views');
+        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'laravext');
+
+        $this->publishes([
+            __DIR__.'/../../resources/lang' => base_path('resources/lang/vendor/laravext', 'lang'),
+        ]);
     }
 
     public function register()
