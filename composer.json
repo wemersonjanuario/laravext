@@ -30,7 +30,7 @@
     "php": ">=5.4.0",
     "wemersonjanuario/laravelpdf": "1.0.*",
     "phpoffice/phpexcel": "1.8.*",
-    "wemersonjanuario/wkhtmltox-windows-64bit": "dev-master",
+    "wemersonjanuario/wkhtmltox-windows-64bit": "0.12.2.4",
     "h4cc/wkhtmltopdf-i386": "*",
     "h4cc/wkhtmltopdf-amd64": "0.12.2.1",
     "illuminate/support": "~5",
