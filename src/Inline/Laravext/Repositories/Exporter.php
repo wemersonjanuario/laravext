@@ -2,8 +2,11 @@
 
 use Illuminate\Http\Request;
 use PHPExcel_IOFactory;
+use PHPExcel_Style_Fill;
+use PHPExcel_Style_Border;
 use PHPExcel;
 use Carbon\Carbon;
+
 class Exporter
 {
     public $sort;
@@ -18,8 +21,6 @@ class Exporter
     protected $baseQuery;
     protected $columnDataType = [];
     protected $columnsDataIndex = [];
-
-
 
 
     public function __construct(Request $request)
@@ -72,23 +73,47 @@ class Exporter
     public function exportToXls()
     {
         $fileName = studly_case($this->documentTitle) . '_' . date('Y.m.d.H.i');
-        $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A2', $this->documentTitle);
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:H1')->mergeCells('A2:H2')->mergeCells('A3:H3');
-        $objPHPExcel->getActiveSheet()->setTitle('Sheet');
-        $objPHPExcel->setActiveSheetIndex(0);
+        if (config('laravext.xls_config.template_file')) {
+            $objReader = PHPExcel_IOFactory::createReader('Excel5');
+            $objPHPExcel = $objReader->load(config('laravext.xls_config.template_file'));
+        } else {
+            $objPHPExcel = new PHPExcel();
+        }
 
+        $objPHPExcel->getActiveSheet()->setTitle(config('laravext.xls_config.sheet_title'));
+        $objPHPExcel->getActiveSheet()->setShowGridlines(false);
+        $objPHPExcel->setActiveSheetIndex(0);
+        $headerStyleArray = array(
+            'font' => array(
+                'bold' => true
+            ),
+            'fill' => array(
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => array('rgb' => 'cccccc')
+            )
+        );
         for ($index = 0; $index < count($this->columns); $index++) {
             $col = $this->columns[$index];
+            $colLetter = $objPHPExcel->setActiveSheetIndex(0)->getCell()->stringFromColumnIndex($index);
+            if ($index === 0) {
+                $firstCell = "A" . (config('laravext.xls_config.start_row_index') - 1);
+            }
+            if ($index === (count($this->columns) - 1)) {
+                $lastColLetter = $colLetter;
+            }
             if ($col['dataIndex']) {
-                $colLetter = $objPHPExcel->setActiveSheetIndex(0)->getCell()->stringFromColumnIndex($index);
-                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($colLetter . 5, $col['text']);
+
+                $objPHPExcel->setActiveSheetIndex(0)->setCellValue($colLetter . (config('laravext.xls_config.start_row_index') - 1), $col['text']);
                 $objPHPExcel->getActiveSheet()->getColumnDimension($colLetter)->setAutoSize(true);
+
+                $objPHPExcel->getActiveSheet()->getStyle($colLetter . (config('laravext.xls_config.start_row_index') - 1))
+                    ->applyFromArray($headerStyleArray);
+
             }
         }
         $rows = $this->getBaseQuery()->get();
 
-        $rowIndex = 6;
+        $rowIndex = config('laravext.xls_config.start_row_index');
         $rowsArray = $rows->toArray();
 
         for ($i = 0; $i < $rows->count(); $i++) {
@@ -100,22 +125,22 @@ class Exporter
                 if (isset($col['dataIndex'])) {
 
                     $row = $rowsArray[$i][$col['dataIndex']];
-                        switch ($col['dataType']) {
-                            case 'money':
-                                $row = number_format($row, 2, ',', '.');
-                                break;
-                            case 'date':
-                                if ($row) {
-                                    $row = Carbon::parse($row)->format('d/m/Y');
-                                }
-                                break;
-                            case 'datetime':
-                                $row = Carbon::parse($row)->format('d/m/Y H:i');
-                                break;
-                            case 'boolean':
-                                $row = (!empty($row)) ? trans('laravext::laravext.true') : trans('laravext::laravext.false');
-                                break;
-                        }
+                    switch ($col['dataType']) {
+                        case 'money':
+                            $row = number_format($row, 2, ',', '.');
+                            break;
+                        case 'date':
+                            if ($row) {
+                                $row = Carbon::parse($row)->format('d/m/Y');
+                            }
+                            break;
+                        case 'datetime':
+                            $row = Carbon::parse($row)->format('d/m/Y H:i');
+                            break;
+                        case 'boolean':
+                            $row = (!empty($row)) ? trans('laravext::laravext.true') : trans('laravext::laravext.false');
+                            break;
+                    }
 
                     $columnLetter = $objPHPExcel->setActiveSheetIndex(0)->getCell()->stringFromColumnIndex($columnIndex);
                     $objPHPExcel->setActiveSheetIndex(0)->setCellValue($columnLetter . $rowIndex, $row);
@@ -124,6 +149,17 @@ class Exporter
             }
             $rowIndex++;
         }
+
+        $styleArray = array(
+            'borders' => array(
+                'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                )
+            )
+        );
+
+        $objPHPExcel->getActiveSheet()->getStyle($firstCell.':'.$lastColLetter.($rowIndex -1))->applyFromArray($styleArray);
+        unset($styleArray);
 
         header('Content-Type: application/vnd.ms-excel');
         header('Content-Disposition: attachment;filename="' . $fileName . '.xls"');
@@ -139,13 +175,15 @@ class Exporter
 
     }
 
-    public function exportToHtml(){
-         return view('vendor/laravext/laravext-report', $this->buildViewVars());
+    public function exportToHtml()
+    {
+        return view(config('laravext.default_template_view'), $this->buildViewVars());
     }
+
     public function exportToPdf()
     {
         $pdf = new \Inline\LaravelPDF\PDF(config('laravext.wkhtmltopdf_bin'), storage_path());
-        $pdf->loadView('vendor/laravext/laravext-report', $this->buildViewVars())
+        $pdf->loadView(config('laravext.default_template_view'), $this->buildViewVars())
             ->pageSize('A4')
             ->orientation($this->documentOrientation)
             //TODO add header and footer support

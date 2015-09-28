@@ -7,9 +7,9 @@ trait CanExportReport
     public function getBaseQuery()
     {
         $query = $this->_model->baseQuery();
-        $this->createQuerySorter($query);
-        $this->createQueryFilter($query);
-        $this->createQuerySearch($query);
+        $this->applySorterToQuery($query);
+        $this->applyFilterToQuery($query);
+        $this->applySearchToQuery($query);
         return $query;
     }
 
