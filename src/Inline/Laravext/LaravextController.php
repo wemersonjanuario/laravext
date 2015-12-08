@@ -406,7 +406,7 @@ class LaravextController extends Controller
         return $query;
     }
 
-   
+
     protected function read()
     {
         return $this->index();
