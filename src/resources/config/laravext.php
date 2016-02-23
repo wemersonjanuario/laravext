@@ -7,7 +7,7 @@ return [
     "default_template_view" => "vendor/laravext/laravext-report",
     "pdf_stylesheet_url" => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css",
     "xls_config" => [
-        "template_file" => base_path(). '/resources/templates/report.xls',
+        "template_file" => false,
         "start_row_index" => 6,
         "sheet_title" => 'Your title here'
     ],

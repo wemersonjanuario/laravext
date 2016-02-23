@@ -51,7 +51,7 @@ class LaravextController extends Controller
         $this->decodeSorters();
         $this->decodePaging();
         $this->decodeSearching();
-        $this->decodeOption();
+        $this->decodeOptionsParam();
 
 
     }
@@ -139,7 +139,8 @@ class LaravextController extends Controller
     }
 
 
-    protected function decodeOption()
+
+    protected function decodeOptionsParam()
     {
         $params = $this->request->all();
 
@@ -397,6 +398,10 @@ class LaravextController extends Controller
 
     protected function applySorterToQuery($query)
     {
+        if(isset($this->_optionsParam['orderBy'])){
+            $query->orderBy($this->_optionsParam['orderBy']['property'].'='.$this->_optionsParam['orderBy']['value'] , 'DESC');
+            $query->orderBy($this->_optionsParam['orderBy']['property'] , 'ASC');
+        }
         if (is_array($this->_sorters)) {
             for ($i = 0; $i < count($this->_sorters); $i++) {
                 $dir = !empty($this->_sorters[$i]['dir']) ? $this->_sorters[$i]['dir'] : "ASC";
