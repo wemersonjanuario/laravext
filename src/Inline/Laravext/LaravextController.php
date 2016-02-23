@@ -399,7 +399,7 @@ class LaravextController extends Controller
     protected function applySorterToQuery($query)
     {
         if(isset($this->_optionsParam['orderBy'])){
-            $query->orderBy($this->_optionsParam['orderBy']['property'].'='.$this->_optionsParam['orderBy']['value'] , 'DESC');
+            $query->orderBy(DB::raw($this->_optionsParam['orderBy']['property'].'='.$this->_optionsParam['orderBy']['value']) , 'DESC');
             $query->orderBy($this->_optionsParam['orderBy']['property'] , 'ASC');
         }
         if (is_array($this->_sorters)) {
