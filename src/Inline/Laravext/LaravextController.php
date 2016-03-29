@@ -36,6 +36,8 @@ class LaravextController extends Controller
 
         if (method_exists($this->_model, 'baseQuery')) {
             $this->_modelBaseQuery = $this->_model->baseQuery();
+        }else{
+            $this->_modelBaseQuery = $this->_model->query();
         }
         $params = $this->request->all();
         if ($this->request->get('disableCountResults') == 'true') {
