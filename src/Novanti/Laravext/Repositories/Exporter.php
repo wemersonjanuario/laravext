@@ -1,4 +1,4 @@
-<?php namespace Inline\Laravext\Repositories;
+<?php namespace Novanti\Laravext\Repositories;
 
 use Illuminate\Http\Request;
 use PHPExcel_IOFactory;
@@ -182,7 +182,7 @@ class Exporter
 
     public function exportToPdf()
     {
-        $pdf = new \Inline\LaravelPDF\PDF(config('laravext.wkhtmltopdf_bin'), storage_path());
+        $pdf = new \Novanti\LaravelPDF\PDF(config('laravext.wkhtmltopdf_bin'), storage_path());
         $pdf->loadView(config('laravext.default_template_view'), $this->buildViewVars())
             ->pageSize('A4')
             ->orientation($this->documentOrientation)

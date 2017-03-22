@@ -1,4 +1,4 @@
-<?php namespace Inline\Laravext\Traits;
+<?php namespace Novanti\Laravext\Traits;
 
 
 trait LaravextModel

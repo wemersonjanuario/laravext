@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Inline\\Laravext\\": "src/Inline/Laravext/"
+      "Novanti\\Laravext\\": "src/Novanti/Laravext/"
     }
   },
   "require": {
     "php": ">=5.4.0",
-    "wemersonjanuario/laravelpdf": "1.0.*",
+    "wemersonjanuario/laravelpdf": "1.1.*",
     "phpoffice/phpexcel": "1.8.*",
     "wemersonjanuario/wkhtmltox-windows-64bit": "0.12.2.4",
     "h4cc/wkhtmltopdf-i386": "*",

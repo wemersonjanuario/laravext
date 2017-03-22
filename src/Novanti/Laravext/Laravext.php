@@ -1,4 +1,4 @@
-<?php namespace Inline\Laravext;
+<?php namespace Novanti\Laravext;
 
 class Laravext
 {

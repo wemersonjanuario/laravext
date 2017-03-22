@@ -1,9 +1,9 @@
-<?php namespace Inline\Laravext;
+<?php namespace Novanti\Laravext;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Inline\Laravext\Repositories\Exporter;
-use Inline\Laravext\Traits\CanExportReport;
+use Novanti\Laravext\Repositories\Exporter;
+use Novanti\Laravext\Traits\CanExportReport;
 use DB;
 use Carbon\Carbon;
 
