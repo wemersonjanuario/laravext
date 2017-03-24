@@ -27,6 +27,7 @@ class LaravextController extends Controller
 
     public function __construct(Request $request)
     {
+
         $this->exporter = new Exporter($request);
         $this->request = $request;
         $this->writerRootProperty = config('laravext.extjs.writer.rootProperty');
@@ -34,11 +35,6 @@ class LaravextController extends Controller
         $this->sortProperty = config('laravext.extjs.sorter.sortProperty');
 
 
-        if (method_exists($this->_model, 'baseQuery')) {
-            $this->_modelBaseQuery = $this->_model->baseQuery();
-        }else{
-            $this->_modelBaseQuery = $this->_model->query();
-        }
         $params = $this->request->all();
         if ($this->request->get('disableCountResults') == 'true') {
             $this->setCountTotalRows(false);
@@ -56,6 +52,16 @@ class LaravextController extends Controller
         $this->decodeOptionsParam();
 
 
+    }
+
+    protected function getModelBaseQuery()
+    {
+        if (method_exists($this->_model, 'baseQuery')) {
+            $this->_modelBaseQuery = $this->_model->baseQuery();
+        } else {
+            $this->_modelBaseQuery = $this->_model->query();
+        }
+        return $this->_modelBaseQuery;
     }
 
     protected function success($options = array())
@@ -139,7 +145,6 @@ class LaravextController extends Controller
 
         $this->_queryValue = isset($params['query']) ? $params['query'] : '';
     }
-
 
 
     protected function decodeOptionsParam()
@@ -400,9 +405,9 @@ class LaravextController extends Controller
 
     protected function applySorterToQuery($query)
     {
-        if(isset($this->_optionsParam['orderBy'])){
-            $query->orderBy(DB::raw($this->_optionsParam['orderBy']['property'].'='.$this->_optionsParam['orderBy']['value']) , 'DESC');
-            $query->orderBy($this->_optionsParam['orderBy']['property'] , 'ASC');
+        if (isset($this->_optionsParam['orderBy'])) {
+            $query->orderBy(DB::raw($this->_optionsParam['orderBy']['property'] . '=' . $this->_optionsParam['orderBy']['value']), 'DESC');
+            $query->orderBy($this->_optionsParam['orderBy']['property'], 'ASC');
         }
         if (is_array($this->_sorters)) {
             for ($i = 0; $i < count($this->_sorters); $i++) {
@@ -423,7 +428,7 @@ class LaravextController extends Controller
     {
         $response = [];
 
-        $query = $this->_modelBaseQuery;
+        $query = $this->getModelBaseQuery();
         $this->applyFilterToQuery($query);
         $this->applySearchToQuery($query);
 
@@ -512,7 +517,7 @@ class LaravextController extends Controller
 
     protected function find($id)
     {
-        $record = $this->_modelBaseQuery->where($this->_model->getKeyName(), $id)->first();
+        $record = $this->getModelBaseQuery()->where($this->_model->getKeyName(), $id)->first();
         return $this->success([
             $this->readerRootProperty => $record ? $record->toArray() : []
         ]);
