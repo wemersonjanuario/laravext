@@ -22,6 +22,7 @@ class LaravextController extends Controller
     protected $_queryValue;
     protected $_sorters = [];
     protected $_optionsParam = [];
+    protected $_orderByIdParam;
     protected $_modelBaseQuery;
     protected $countTotalRows;
 
@@ -154,6 +155,10 @@ class LaravextController extends Controller
         if (isset($params['options'])) {
             $this->_optionsParam = json_decode($params['options'], true);
         }
+        if ($this->request->get('orderById')) {
+            $this->_orderByIdParam = $this->request->get('orderById');
+        }
+
     }
 
     protected function applySearchToQuery($query)
@@ -405,9 +410,9 @@ class LaravextController extends Controller
 
     protected function applySorterToQuery($query)
     {
-        if (isset($this->_optionsParam['orderBy'])) {
-            $query->orderBy(DB::raw($this->_optionsParam['orderBy']['property'] . '=' . $this->_optionsParam['orderBy']['value']), 'DESC');
-            $query->orderBy($this->_optionsParam['orderBy']['property'], 'ASC');
+        if (isset($this->_orderByIdParam)) {
+            $query->orderBy(DB::raw($this->_getModel()->getKeyName() . '=' . $this->_orderByIdParam), 'DESC');
+            $query->orderBy($this->_getModel()->getKeyName(), 'ASC');
         }
         if (is_array($this->_sorters)) {
             for ($i = 0; $i < count($this->_sorters); $i++) {

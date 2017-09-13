@@ -15,7 +15,9 @@
   "authors": [
     {
       "name": "Wemerson Januario",
-      "email": "wemerson.januario@gmail.com"
+      "email": "wemerson.januario@gmail.com",
+	  "homepage": "http://wemersonjanuario.com.br",
+	  "role": "Consultant and Developer"
     }
   ],
   "support": {
@@ -36,5 +38,12 @@
     "illuminate/support": "~5",
     "illuminate/view": "5.x"
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "extra": {
+        "laravel": {
+            "providers": [
+                "Novanti\\Laravext\\LaravextServiceProvider"
+            ]
+        }
+    }
 }
