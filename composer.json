@@ -34,7 +34,7 @@
     "phpoffice/phpexcel": "1.8.*",
     "wemersonjanuario/wkhtmltox-windows-64bit": "0.12.2.4",
     "h4cc/wkhtmltopdf-i386": "*",
-    "h4cc/wkhtmltopdf-amd64": "0.12.2.1",
+    "h4cc/wkhtmltopdf-amd64": "0.12.3",
     "illuminate/support": "~5",
     "illuminate/view": "5.x"
   },
